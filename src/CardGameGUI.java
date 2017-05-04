@@ -252,12 +252,12 @@ public class CardGameGUI extends JFrame implements ActionListener {
 	 * @param isSelected flag that indicates if the card is selected
 	 * @return String representation of the image
 	 */
-	private String imageFileName(Cards c, boolean isSelected) {
+	private String imageFileName(Card c, boolean isSelected) {
 		String str = "cards/";
 		if (c == null) {
 			return "cards/back1.GIF";
 		}
-		str += c.rank() + c.suit();
+		str += c.returnRank() + c.returnType();
 		if (isSelected) {
 			str += "S";
 		}

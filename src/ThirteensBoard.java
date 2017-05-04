@@ -14,9 +14,11 @@ public class ThirteensBoard extends Board
 
 	public boolean isLegal(ArrayList<Integer> selectedCards)
 	{
-		return
-			findKing(selectedCards).size()==1||
-			findPair(selectedCards).size()==2;
+		if (selectedCards.size()==1)
+			return findKing(selectedCards).size()==1;
+		else if (selectedCards.size()==2)
+			return findPair(selectedCards).size()==2;
+		return false;
 	}
 
 	public boolean anotherPlayIsPossible()
@@ -29,7 +31,7 @@ public class ThirteensBoard extends Board
 	{
 		ArrayList<Integer> ans=new ArrayList<Integer>();
 		for (int i=0;i<selectedCards.size();i++)
-			if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("king"))
+			if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("king"))
 			{
 				ans.add(i);
 				break;
@@ -44,13 +46,14 @@ public class ThirteensBoard extends Board
 		for (int i=0;i<selectedCards.size();i++)
 		{
 			for (int p=0;p<i;p++)
-				if (cardAt(selectedCards.get(i)).pointValue()+cardAt(selectedCards.get(p)).pointValue()==13)
+				if (cardAt(selectedCards.get(i)).returnNum()+cardAt(selectedCards.get(p)).returnNum()==13)
 				{
 					ans.add(p);
 					ans.add(i);
 					break outer;
 				}
 		}
+		System.out.println(ans.size());
 		return ans;
 	}
 

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public abstract class Board 
 {
 
-	private Cards[] cards; //the cards on this board
-	private Deck deck; //the deck of cards being used to play current game
+	private DeckOfCards deck; //the deck of cards being used to play current game
+	private Card[] cards;
 
 	public Board(int size, String[] ranks, String[] suits, int[] pointValues) 
 	{
-		cards = new Cards[size]; //size is the number of cards on the board
-		deck = new Deck(ranks, suits, pointValues);
+		cards = new Card[size]; //size is the number of cards on the board
+		deck = new DeckOfCards(true);
 		dealMyCards();
 	}
 
@@ -44,7 +44,8 @@ public abstract class Board
 	//deal card to kth position of the board or set to nullif deck is empty
 	public void deal(int k) 
 	{
-		cards[k] = deck.deal();
+		cards[k]=deck.returnCard(0);
+		deck.removeCard(0);
 	}
 
 	//returns the number of undealt card left in the deck
@@ -54,7 +55,7 @@ public abstract class Board
 	}
 
 	//return the card at position k on the board
-	public Cards cardAt(int k) 
+	public Card cardAt(int k) 
 	{
 		return cards[k];
 	}
@@ -98,9 +99,9 @@ public abstract class Board
 	//returns true if game is won (board and deck are empty)
 	public boolean gameIsWon() 
 	{
-		if (deck.isEmpty()) 
+		if (deck.size()==0) 
 		{
-			for (Cards c : cards) 
+			for (Card c: cards) 
 			{
 				if (c != null)
 					return false;
@@ -115,7 +116,8 @@ public abstract class Board
 	{
 		for (int k = 0; k < cards.length; k++) 
 		{
-			cards[k] = deck.deal();
+			cards[k]=deck.returnCard(0);
+			deck.removeCard(0);
 		}
 	}
 	

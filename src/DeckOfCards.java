@@ -2,8 +2,9 @@ import java.util.ArrayList;
 public class DeckOfCards
 {
 	private ArrayList<Card> deck;
-	protected ArrayList<Card> perfect = new ArrayList<Card>();
-	String[] types={"Spades","Clubs","Hearts","Diamonds"};
+	private ArrayList<Card> perfect = new ArrayList<Card>();
+	private String[] types={"Spades","Clubs","Hearts","Diamonds"};
+	
 	public DeckOfCards(boolean preShuffle)
 	{
 		for (int i=0;i<types.length;i++)
@@ -45,12 +46,20 @@ public class DeckOfCards
 	
 	public Card returnCard(int p)
 	{
-		return deck.get(p);
+		if (deck.size()>0)
+			return deck.get(p);
+		return null;
 	}
 	
 	public void removeCard(int p)
 	{
-		deck.remove(p);
+		if (deck.size()>0)
+			deck.remove(p);
+	}
+	
+	public int size()
+	{
+		return deck.size();
 	}
 
 }

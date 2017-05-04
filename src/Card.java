@@ -3,6 +3,7 @@ public class Card
 
 	private int num;
 	private String type;
+	private String rank;
 
 	public Card(int n, String t)
 	{
@@ -20,20 +21,25 @@ public class Card
 		return type;
 	}
 	
+	public String returnRank()
+	{
+		String r;
+		if (num==1)
+			r="Ace";
+		else if (num==11)
+			r="Jack";
+		else if (num==12)
+			r="Queen";
+		else if (num==13)
+			r="King";
+		else
+			r=String.valueOf(num);
+		return r;
+	}
+	
 	public String toString()
 	{
-		String n;
-		if (num==1)
-			n="Ace";
-		else if (num==11)
-			n="Jack";
-		else if (num==12)
-			n="Queen";
-		else if (num==13)
-			n="King";
-		else
-			n=String.valueOf(num);
-		return "The " + n + " of " + type;
-	}
+		return "The " + rank + " of " + type;
+	} 
 
 }

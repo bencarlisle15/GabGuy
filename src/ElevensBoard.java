@@ -64,7 +64,7 @@ public class ElevensBoard extends Board
 		for (int i=0;i<selectedCards.size();i++)
 		{
 			for (int p=0;p<i;p++)
-				if (cardAt(selectedCards.get(i)).pointValue()+cardAt(selectedCards.get(p)).pointValue()==11)
+				if (cardAt(selectedCards.get(i)).returnNum()+cardAt(selectedCards.get(p)).returnNum()==11)
 				{
 					ans.add(p);
 					ans.add(i);
@@ -89,17 +89,17 @@ public class ElevensBoard extends Board
 		boolean j=false,q=false,k=false;
 		for (int i=0;i<selectedCards.size();i++)
 		{
-			if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("jack"))
+			if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("jack"))
 				{
 					j=true;
 					ans.add(selectedCards.get(i));
 				}
-			else if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("queen"))
+			else if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("queen"))
 			{
 				q=true;
 				ans.add(selectedCards.get(i));
 			}
-			else if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("king"))
+			else if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("king"))
 			{
 				k=true;
 				ans.add(selectedCards.get(i));
@@ -111,48 +111,5 @@ public class ElevensBoard extends Board
 			ans=new ArrayList<Integer>();
 		return ans;
 				
-	}
-
-	/**
-	 * Looks for a legal play on the board.  If one is found, it plays it.
-	 * @return true if a legal play was found (and made); false otherwise.
-	 */
-	public boolean playIfPossible() {
-		return playPairSum11IfPossible() || playJQKIfPossible();
-	}
-
-	/**
-	 * Looks for a pair of non-face cards whose values sum to 11.
-	 * If found, replace them with the next two cards in the deck.
-	 * The simulation of this game uses this method.
-	 * @return true if an 11-pair play was found (and made); false otherwise.
-	 */
-	private boolean playPairSum11IfPossible() {
-		ArrayList<Integer> foundIndexes = cardIndexes();
-		ArrayList<Integer> cardsToReplace = findPairSum11(foundIndexes);
-		if (cardsToReplace.size() > 0) {
-			replaceSelectedCards(cardsToReplace);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Looks for a group of three face cards JQK.
-	 * If found, replace them with the next three cards in the deck.
-	 * The simulation of this game uses this method.
-	 * @return true if a JQK play was found (and made); false otherwise.
-	 */
-	private boolean playJQKIfPossible() {
-		ArrayList<Integer> foundIndexes = cardIndexes();
-		ArrayList<Integer> cardsToReplace = findJQK(foundIndexes);
-		if (cardsToReplace.size() > 0) {
-			replaceSelectedCards(cardsToReplace);
-			return true;
-		} 
-		else {
-			return false;
-		}
 	}
 }
