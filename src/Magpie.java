@@ -78,7 +78,7 @@ public class Magpie
 				response="Okay";
 			else
 			{	
-				Scanner is=new Scanner(getClass().getResourceAsStream("files/README.md"));
+				Scanner is=new Scanner(getClass().getResourceAsStream("files/help.md"));
 				while (is.hasNextLine())
 				{
 					response+=is.nextLine()+"\n";
