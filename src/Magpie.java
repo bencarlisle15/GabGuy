@@ -91,7 +91,7 @@ public class Magpie
 		{
 			calc.eq=statement;
 			if (calc.checkEq())
-				response=statement+"="+calc.equationSolver(statement);
+				response="="+calc.equationSolver(statement);
 			else if (statement.matches("(.*)my name is ([a-zA-Z]| |[.]|-)+"))
 				response=name(statement);
 			else if (findKeyword(statement,"my name is"))

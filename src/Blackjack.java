@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 public class Blackjack
-
 {
 	private DeckOfCards deck;
 	private boolean hasAce;
