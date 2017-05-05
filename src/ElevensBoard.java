@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class ElevensBoard extends Board 
+public class ElevensBoard extends CardBoard 
 {
 
 	private static final int BOARD_SIZE = 9; //number of cards on the board

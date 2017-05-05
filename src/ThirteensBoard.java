@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class ThirteensBoard extends Board
+public class ThirteensBoard extends CardBoard
 {
 	
 	private static final int BOARD_SIZE = 10; //number of cards on the board

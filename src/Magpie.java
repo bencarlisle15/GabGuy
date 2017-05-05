@@ -12,8 +12,8 @@ public class Magpie
 {
 	private String name;
 	private Calculator calc=new Calculator();
-	private RPSMag rps;
-	private BlackjackImpApp b;
+	private RockPaperScissors rps;
+	private Blackjack b;
 	public int code=0;
 
 	public String getResponse(String s)
@@ -25,28 +25,28 @@ public class Magpie
 		{
 			if (findKeyword(statement,"rock")||findKeyword(statement,"paper")||findKeyword(statement,"scissors"))
 			{
-				rps=new RPSMag();
+				rps=new RockPaperScissors();
 				response="Rock, Paper, Scissors, Shoot!";
 				code=2;
 			}
 			else if (findKeyword(statement,"blackjack"))
 			{
-				b=new BlackjackImpApp();
+				b=new Blackjack();
 				response=b.getNext(statement);
 				code=3;
 			}
 			else if (findKeyword(statement,"elevens"))
 			{
-				Board e=new ElevensBoard();
-				CardGameGUI c=new CardGameGUI(e);
+				CardBoard e=new ElevensBoard();
+				CardBoardGUI c=new CardBoardGUI(e);
 				c.displayGame();
 				code=0;
 				response="Good game!";
 			}
 			else if (findKeyword(statement,"thirteens"))
 			{
-				Board e=new ThirteensBoard();
-				CardGameGUI c=new CardGameGUI(e);
+				CardBoard e=new ThirteensBoard();
+				CardBoardGUI c=new CardBoardGUI(e);
 				c.displayGame();
 				code=0;
 				response="Good game!";
