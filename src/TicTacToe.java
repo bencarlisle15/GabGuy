@@ -48,6 +48,7 @@ public class TicTacToe extends JPanel implements MouseListener
 	private int finalC2;
 	private boolean win;
 	private boolean draw;
+	private boolean done;
 	private boolean gameFinished=false;
 	private final char[][] board=new char[3][3];
 
@@ -279,6 +280,7 @@ public class TicTacToe extends JPanel implements MouseListener
 	
 	private void gameOver(int r1, int c1, int r2, int c2)
 	{
+		done=true;
 		if (board[r1][c1]=='X')
 			win=true;
 		if (c1==0)
@@ -316,23 +318,66 @@ public class TicTacToe extends JPanel implements MouseListener
 			draw=true;
 			gameIsOver();
 		}
+		done=false;
 		checkWin();
-		boolean done=false;
-		for (int i=0;i<3;i++)
+		for (int r=0;r<2;r++)
 		{
-			if (board[i][i]==0)
+			if (board[r][2]==0&&board[r][0]==board[r][1]&&board[r][0]=='X')
 			{
-				board[i][i]='O';
+				board[r][2]='O';
 				done=true;
 				break;
 			}
-			else if (board[2-i][i]==0)
+			else if (board[r][0]==0&&board[r][2]==board[r][1]&&board[r][2]=='X')
 			{
-				board[2-i][i]='O';
+				board[r][0]='O';
 				done=true;
 				break;
 			}
 		}
+		if (!done)
+			for (int c=0;c<2;c++)
+			{
+				if (board[2][c]==0&&board[0][c]==board[1][c]&&board[0][c]=='X')
+				{
+					board[2][c]='O';
+					done=true;
+					break;
+				}
+				if (board[0][c]==0&&board[2][c]==board[1][c]&&board[2][c]=='X')
+				{
+					board[0][c]='O';
+					done=true;
+					break;
+				}
+			}
+		if (!done)
+			if (board[2][2]==0&&board[0][0]==board[1][1]&&board[0][0]=='X')
+			{
+				board[2][2]='O';
+				done=true;
+			}
+			else if (board[0][2]==0&&board[2][0]==board[1][1]&&board[2][0]=='X')
+			{
+				board[0][2]='O';
+				done=true;
+			}
+		if (!done)
+			for (int i=0;i<3;i++)
+			{
+				if (board[i][i]==0)
+				{
+					board[i][i]='O';
+					done=true;
+					break;
+				}
+				else if (board[2-i][i]==0)
+				{
+					board[2-i][i]='O';
+					done=true;
+					break;
+				}
+			}
 		outer:
 		if (!done)
 			for (int r=0;r<board.length;r++)
