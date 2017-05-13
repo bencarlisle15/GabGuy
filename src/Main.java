@@ -62,7 +62,6 @@ public class Main extends JPanel implements KeyListener, FocusListener
 
 	public void create()
 	{
-		Main main=new Main();
 		JFrame frame=new JFrame();
 		try
 		{
@@ -72,7 +71,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		{
 		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(main);
+		frame.getContentPane().add(new Main());
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

@@ -18,7 +18,7 @@ public class DeckOfCards
 	
 	public void shuffle()
 	{
-		deck = new ArrayList<Card>();
+		deck=new ArrayList<Card>();
 		Card newCard;
 		for (int i=0;i<perfect.size();i++)
 		{

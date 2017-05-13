@@ -37,17 +37,19 @@ public class Magpie
 			}
 			else if (findKeyword(statement,"elevens"))
 			{
-				CardBoard e=new ElevensBoard();
-				CardBoardGUI c=new CardBoardGUI(e);
-				c.displayGame();
+				new CardBoardGUI(new ElevensBoard()).displayGame();
 				code=0;
 				response="Good game!";
 			}
 			else if (findKeyword(statement,"thirteens"))
 			{
-				CardBoard e=new ThirteensBoard();
-				CardBoardGUI c=new CardBoardGUI(e);
-				c.displayGame();
+				new CardBoardGUI(new ThirteensBoard()).displayGame();
+				code=0;
+				response="Good game!";
+			}
+			else if (findKeyword(statement,"tic")||findKeyword(statement,"tac")||findKeyword(statement,"toe"))
+			{
+				new TicTacToe().create();
 				code=0;
 				response="Good game!";
 			}

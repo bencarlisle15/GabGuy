@@ -3,7 +3,6 @@ public class Card
 
 	private int num;
 	private String type;
-	private String rank;
 
 	public Card(int n, String t)
 	{
@@ -39,7 +38,7 @@ public class Card
 	
 	public String toString()
 	{
-		return "The " + rank + " of " + type;
+		return "The " + returnRank() + " of " + type;
 	} 
 
 }
