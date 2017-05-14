@@ -110,7 +110,9 @@ public class Magpie
 			}
 			else if (statement.matches(
 					"(.*)(((who|what|where|why|how|when) is)|(what's|who's|where's|why's|how's|when's)) (.)+"))
-						response=whatIs(statement);
+						response=new InfoFinder().create(statement);
+			else if (statement.matches("(.*)(who|what|where|why|how|when)((.)+)"))
+				response=new InfoFinder().create(new InfoFinder().removeQuestion(statement));
 			else if (findKeyword(statement,"time"))
 				response=new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			else if (findKeyword(statement,"date")||findKeyword(statement,"day"))
@@ -191,36 +193,6 @@ public class Magpie
 		Pattern f = Pattern.compile(pattern);
 		Matcher letters = f.matcher(phrase);
 		return letters.find();
-	}
-
-	private String whatIs(String s)
-	{
-		int pos=s.indexOf("'s ")+3;
-		if (pos==2||s.indexOf("is")<s.indexOf("'s ")&&s.indexOf("is")>=0)
-			pos=s.indexOf(" is ")+4;
-		String whatIs= s.substring(pos);
-		String ans="";
-		whatIs=whatIs.trim();
-		int p=0;
-		if (whatIs.substring(0,Math.min(1,whatIs.length())).equals("a")&&!whatIs.equals("a"))
-			whatIs=whatIs.substring(2);
-		else if (whatIs.substring(0,Math.min(3,whatIs.length())).equals("the"))
-			whatIs=whatIs.substring(4);
-		for (int i=0;i<whatIs.length();i++)
-		{
-			if (whatIs.substring(i,Math.min(i+1,whatIs.length())).equals(" "))
-			{
-				ans+=whatIs.substring(p,i)+"+";
-				p=++i;
-			}
-			else if (whatIs.substring(i,Math.min(i+1,whatIs.length())).equals("'"))
-			{
-				ans+=whatIs.substring(p,i)+"%27";
-				p=++i;
-			}
-		}
-		ans+=whatIs.substring(p);
-		return new InfoFinder().create(ans);
 	}
 	
 	private String ping()
