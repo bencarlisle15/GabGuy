@@ -11,21 +11,17 @@ import java.text.SimpleDateFormat;
 public class Magpie
 {
 	private String name;
-	private Calculator calc=new Calculator();
-	private RockPaperScissors rps;
 	private Blackjack b;
-	public int code=0;
+	private int code=0;
 
 	public String getResponse(String s)
 	{
+		String response=null;
 		String statement=s.toLowerCase();
-		String response="";
-		
 		if (code==1)
 		{
 			if (findKeyword(statement,"rock")||findKeyword(statement,"paper")||findKeyword(statement,"scissors"))
 			{
-				rps=new RockPaperScissors();
 				response="Rock, Paper, Scissors, Shoot!";
 				code=2;
 			}
@@ -36,42 +32,28 @@ public class Magpie
 				code=3;
 			}
 			else if (findKeyword(statement,"elevens"))
-			{
 				new CardBoardGUI(new ElevensBoard()).displayGame();
-				code=0;
-				response="Good game!";
-			}
 			else if (findKeyword(statement,"thirteens"))
-			{
 				new CardBoardGUI(new ThirteensBoard()).displayGame();
-				code=0;
-				response="Good game!";
-			}
 			else if (findKeyword(statement,"tic")||findKeyword(statement,"tac")||findKeyword(statement,"toe"))
-			{
 				new TicTacToe().create();
-				code=0;
-				response="Good game!";
-			}
 			else
-			{
 				response=("Sorry, that game is not supported.");
+			if (code==1&&response==null)
+			{
 				code=0;
+				response=goodGame();;
 			}
 		}
 		else if (code==2)
 		{
-			response=rps.game(statement)+"\n";
-			if (name==null)
-				response+="Good game!";
-			else
-				response+="Good game, "+name+"!";
+			response=rps(statement)+"\n"+goodGame();
 			code=0;
 		}
 		else if (code==3)
 		{
 			response=b.getNext(statement);
-			if (b.c==100)
+			if (b.getCode()==100)
 				code=0;
 		}
 		else if (code==4)
@@ -81,19 +63,17 @@ public class Magpie
 			else
 			{	
 				Scanner is=new Scanner(getClass().getResourceAsStream("files/help.md"));
+				response="";
 				while (is.hasNextLine())
-				{
 					response+=is.nextLine()+"\n";
-				}
 				is.close();
 			}
 			code=0;
 		}
 		else
 		{
-			calc.eq=statement;
-			if (calc.checkEq())
-				response="="+calc.equationSolver(statement);
+			if (new Calculator().checkEq(statement))
+				response="="+new Calculator().equationSolver(statement);
 			else if (statement.matches("(.*)my name is ([a-zA-Z]| |[.]|-)+"))
 				response=name(statement);
 			else if (findKeyword(statement,"my name is"))
@@ -112,7 +92,7 @@ public class Magpie
 					"(.*)(((who|what|where|why|how|when) is)|(what's|who's|where's|why's|how's|when's)) (.)+"))
 						response=new InfoFinder().create(statement);
 			else if (statement.matches("(.*)(who|what|where|why|how|when)((.)+)"))
-				response=new InfoFinder().create(new InfoFinder().removeQuestion(statement));
+				response=new InfoFinder().create(statement);
 			else if (findKeyword(statement,"time"))
 				response=new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			else if (findKeyword(statement,"date")||findKeyword(statement,"day"))
@@ -159,12 +139,7 @@ public class Magpie
 			else if (statement.equals("bye")||findKeyword(statement,"exit"))
 				System.exit(0);
 			else if (statement.equals("hello")||statement.equals("hi"))
-			{
-				if (name==null)
-					response="We meet again";
-				else
-					response="Hello, " + name;
-			}
+				response=name==null?"We meet again":"Hello, " + name;
 			else
 				response = getRandomResponse();
 		}
@@ -227,5 +202,44 @@ public class Magpie
 			else
 				name+=statement.substring(i-1,i).toLowerCase();
 	return "Hello, " + name;
+	}
+	
+	private String rps(String statement)
+	{
+		String response;
+		int move= (int) (3*Math.random()+1);
+		int yourMove=0;
+		String yours=statement;
+		if (yours.equalsIgnoreCase("rock"))
+			yourMove=1;
+		else if (yours.equalsIgnoreCase("scissors"))
+			yourMove=2;
+		else if (yours.equalsIgnoreCase("paper"))
+			yourMove=3;
+		else
+			return "That is not a valid entry, goodbye!";
+		if (yourMove==move)
+			response="I drew " + yours + ", it is a tie";
+		else if (yourMove==1&&move==2)
+			response="I drew scissors, you win!";
+		else if (yourMove==1&&move==3)
+			response="I drew paper, I win!";
+		else if (yourMove==2&&move==1)
+			response="I drew rock, I win!";
+		else if (yourMove==2&&move==3)
+			response="I drew paper, you win!";
+		else if (yourMove==3&&move==1)
+			response="I drew rock, you win!";
+		else if (yourMove==3&&move==2)
+			response="I drew scissors, I win!";
+		else
+			response="An error has occured";
+		return response;
+	}
+	
+	private String goodGame()
+	{
+		String n=name!=null?(", "+name+"!"):"!";
+		return "Good game"+n;
 	}
 }

@@ -26,7 +26,7 @@ public class InfoFinder
 		return ans;
 	}
 	
-	public String removeQuestion(String s)
+	private String removeQuestion(String s)
 	{
 		int pos=s.indexOf("'s ")+3;
 		if (pos==2||s.indexOf("is")<s.indexOf("'s ")&&s.indexOf("is")>=0)
@@ -139,7 +139,7 @@ public class InfoFinder
 		}
 	}
 	
-	public static String addLine(String line)
+	private static String addLine(String line)
 	{
 		String[] w={"<","(","["};
 		String[] w2={">",")","]"};
@@ -150,7 +150,7 @@ public class InfoFinder
 		return line.trim();
 	}
 	
-	public static String fix(String a, String q, String q2)
+	private static String fix(String a, String q, String q2)
 	{
 		int pos=0;
 		String b="";

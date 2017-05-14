@@ -27,7 +27,7 @@ public class ThirteensBoard extends CardBoard
 		return findKing(a).size()>0||findPair(a).size()>0;
 	}
 	
-	public ArrayList<Integer> findKing(ArrayList<Integer> selectedCards)
+	private ArrayList<Integer> findKing(ArrayList<Integer> selectedCards)
 	{
 		ArrayList<Integer> ans=new ArrayList<Integer>();
 		for (int i=0;i<selectedCards.size();i++)
@@ -39,7 +39,7 @@ public class ThirteensBoard extends CardBoard
 		return ans;
 	}
 	
-	public ArrayList<Integer> findPair(ArrayList<Integer> selectedCards)
+	private ArrayList<Integer> findPair(ArrayList<Integer> selectedCards)
 	{
 		ArrayList<Integer> ans = new ArrayList<Integer>();
 		outer:

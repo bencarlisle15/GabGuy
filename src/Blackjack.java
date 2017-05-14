@@ -5,18 +5,17 @@ public class Blackjack
 	private boolean hasAce;
 	private final int STARTINGBET=5;
 	private final int STARTINGAMOUNT=100;
-	ArrayList<Card> hand;
-	ArrayList<Card> cpuHand;
-	int amount=STARTINGAMOUNT;
-	int bet=STARTINGBET;
-	String move;
-	boolean desire;
-	public int c=-1;
+	private ArrayList<Card> hand;
+	private ArrayList<Card> cpuHand;
+	private int amount=STARTINGAMOUNT;
+	private int bet=STARTINGBET;
+	private boolean desire;
+	private int code=-1;
 	
 	public String getNext(String s)
 	{
-		c++;
-		switch (c)
+		code++;
+		switch (code)
 		{
 			case 0:
 				return case0();
@@ -31,11 +30,16 @@ public class Blackjack
 		}
 	}
 	
-	public String case0()
+	public int getCode()
+	{
+		return code;
+	}
+	
+	private String case0()
 	{
 		return questionDesire(true);
 	}
-	public String case1(String s)
+	private String case1(String s)
 	{
 		desire=desire(s);
 		if (desire)
@@ -46,17 +50,17 @@ public class Blackjack
 			hasAce=false;
 			if (amount<STARTINGBET)
 			{
-				c=101;
+				code=101;
 				return gameOver()+"\n"+insufficientFunds();
 			}
 			else
 				return bet(amount);
 		}
-		c=100;
+		code=100;
 		return gameOver();
 	}
 	
-	public String case2(String s)
+	private String case2(String s)
 	{
 		if (s.equalsIgnoreCase("all in"))
 			bet=amount;
@@ -86,7 +90,7 @@ public class Blackjack
 		return response;
 	}
 
-	public String case3(String move)
+	private String case3(String move)
 	{
 		String response="";
 		if (move.equals("fold"))
@@ -98,7 +102,7 @@ public class Blackjack
 			response+=onHand(true,hand,hasAce)+"\n";
 			if (cardTotal(hand)>=21)
 				return response+case4();
-			c--;
+			code--;
 			return response+questionMove();
 		}
 		else if (move.equals("double down"))
@@ -117,7 +121,7 @@ public class Blackjack
 		else
 			return invalidSelection();
 	}
-	public String case4()	
+	private String case4()	
 	{
 		String response="";
 		if (hasAce&&cardTotal(hand)+10<=21)
@@ -163,7 +167,7 @@ public class Blackjack
 		}
 		else
 			response+=lose()+"\n";
-		c=0;
+		code=0;
 		response+=amount(amount)+"\n";
 		response+=questionDesire(false);
 		return response;
@@ -186,7 +190,7 @@ public class Blackjack
 		return sum;
 	}
 
-	public String questionDesire(boolean firstTime)
+	private String questionDesire(boolean firstTime)
 	{
 		if (firstTime)
 			return "Would you like to play Blackjack?";
@@ -194,32 +198,32 @@ public class Blackjack
 			return "Would you like to play again?";
 	}
 	
-	public boolean desire(String s)
+	private boolean desire(String s)
 	{
 		if (s.equalsIgnoreCase("no"))
 			return false;
 		return true;
 	}
 	
-	public String insufficientFunds()
+	private String insufficientFunds()
 	{
-		c--;
+		code--;
 		return "Insufficient funds";
 	}
 	
-	public String invalidSelection()
+	private String invalidSelection()
 	{
-		c--;
+		code--;
 		return "Invalid selection";
 	}
 	
 
-	public String questionBet()
+	private String questionBet()
 	{
 		return "How much would you like to bet";
 	}
 	
-	public String draw(boolean user,Card c)
+	private String draw(boolean user,Card c)
 	{
 		if (user)
 			return "You drew the " + c;
@@ -227,7 +231,7 @@ public class Blackjack
 			return "The dealer drew the " +c;
 	}
 	
-	public String onHand(boolean user, ArrayList<Card> hand, boolean hasAce)
+	private String onHand(boolean user, ArrayList<Card> hand, boolean hasAce)
 	{	
 		if (user)
 		{
@@ -247,42 +251,42 @@ public class Blackjack
 			return "The dealer has a total of " + cardTotal(hand);
 	}
 
-	public String questionMove()
+	private String questionMove()
 	{
 		return "What would you like to do?";
 	}
 	
-	public String win()
+	private String win()
 	{
 		return "Congratulations, you win!";
 	}
 	
-	public String tie()
+	private String tie()
 	{
 		return "You tied, that's okay.";
 	}
 	
-	public String lose()
+	private String lose()
 	{
 		return "You lost, better luck next time.";
 	}
 	
-	public String lowBet()
+	private String lowBet()
 	{
-		c--;
+		code--;
 		return "Your bet is too low, please raise it";
 	}
 
-	public String amount(int amount)
+	private String amount(int amount)
 	{
 		return "You have " + amount;
 	}
-	public String bet(int amount)
+	private String bet(int amount)
 	{
 		return "You have " + amount +", how much would you like to bet";
 	}
 	
-	public String gameOver()
+	private String gameOver()
 	{
 		return "GAME OVER!";
 	}

@@ -4,18 +4,17 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 public class Calculator
 {
-public String error="An error has occured";
-public String eq;
-private String[] otherChar = {"^","x","*","/","+","-"};
+private String error="An error has occured";
+private String[] otherChar={"^","x","*","/","+","-"};
 
-public boolean checkEq()
-{
-	String oper="(\\^|\\+|\\-|\\*|x|\\/)";
-	String num="(([0-9]+)(\\.?)([0-9]*))";
-	if (Pattern.compile("("+num+"("+oper+num +")*)((=)([a-z]))?").matcher(eq).matches())
-		return true;
-	return false;
-}
+	public boolean checkEq(String eq)
+	{
+		String oper="(\\^|\\+|\\-|\\*|x|\\/)";
+		String num="(([0-9]+)(\\.?)([0-9]*))";
+		if (Pattern.compile("("+num+"("+oper+num +")*)((=)([a-z]))?").matcher(eq).matches())
+			return true;
+		return false;
+	}
 
 	public String equationSolver(String equat)
 	{
@@ -59,18 +58,17 @@ public boolean checkEq()
 		return changeFormat(cDub(ans));
 	}
 
-	public String changeFormat(String ans)
+	private String changeFormat(String ans)
 	{
-		DecimalFormat intFormat = new DecimalFormat("#");
 		String fin=ans;
 		if (fin.equals("Infinity"))
 			fin=error;
 		else if (cStr(ans)==Math.ceil(cStr(ans)))
-			fin=intFormat.format(cStr(ans));
+			fin=new DecimalFormat("#").format(cStr(ans));
 		return fin;
 	}
 
-	public double twoTerms(String type, double term1, double term2)
+	private double twoTerms(String type, double term1, double term2)
 	{
 		double ans=0;
 		if (type.equals("^"))
@@ -86,12 +84,12 @@ public boolean checkEq()
 		return ans;
 	}
 
-	public double cStr(String a)
+	private double cStr(String a)
 	{
 		return Double.parseDouble(a);
 	}
 
-	public String cDub(Double a)
+	private String cDub(Double a)
 	{
 		return String.valueOf(a);
 	}

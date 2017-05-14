@@ -31,7 +31,7 @@ public class DeckOfCards
 			
 	}
 	
-	public boolean shuffleCheck(int i, Card newCard)
+	private boolean shuffleCheck(int i, Card newCard)
 	{
 		for (int t=i-1;t>=0;t--)
 			if (deck.get(t).returnType().equals(newCard.returnType())&&deck.get(t).returnNum()==newCard.returnNum())
@@ -39,7 +39,7 @@ public class DeckOfCards
 		return true;
 	}
 	
-	public Card newCard()
+	private Card newCard()
 	{
 		return new Card((int)(Math.random()*(13)+1),types[(int)(Math.random()*(types.length))]);
 	}
