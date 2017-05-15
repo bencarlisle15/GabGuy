@@ -99,7 +99,12 @@ public class Magpie
 			else if (statement.matches("(.*)add (.+) to (.+)"))
 				response=addToList(statement);
 			else if (statement.matches("(.*)what's on (.+)"))
-				response="Your list has:\n"+returnList(statement);
+			{
+				response="";
+				if (list.containsKey(statement.substring(statement.indexOf("what's on")+10)))
+					response+="Your list, " + statement.substring(statement.indexOf("what's on")+10) + ", has:\n";
+				response+=returnList(statement);
+			}
 			else if (statement.matches(
 					"(.*)(((who|what|where|why|how|when) is)|(what's|who's|where's|why's|how's|when's)) (.)+"))
 						response=new InfoFinder().create(statement);

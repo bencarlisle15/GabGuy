@@ -9,7 +9,8 @@ Features:
 3.) Ask GabGuy to play a game with you and your wish is his command (support for Blackjack, Rock Paper Scissors, Elevens, and Thirteens). Ex. "Let's play a game"
 4.) Tell GabGuy your name and he'll always remember it. Ex. "My name is GabGuy"
 5.) Tell GabGuy to learn to say something and he'll say it back to you. Ex. "If I say this then say that"
-6.) Ask GabGuy for the time or date and he'll use his internal atomic clock to find it exactly. Ex. "What is the date"
-7.) Or just talk with GabGuy like anyone else!  Ex. "Why are you called GabGuy"
+6.) Tell GabGuy to keep a list of something and he'll keep track of it. Ex. "Add eggs to my shopping list"
+7.) Ask GabGuy for the time or date and he'll use his internal atomic clock to find it exactly. Ex. "What is the date"
+8.) Or just talk with GabGuy like anyone else!  Ex. "Why are you called GabGuy"
 
 Happy gabbing!
