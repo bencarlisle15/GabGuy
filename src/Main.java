@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +32,8 @@ public class Main extends JPanel implements KeyListener, FocusListener
 	private Magpie mag=new Magpie();
 	private static boolean userError=false;
 	private static boolean help=false;
+	private int pos;
+	private ArrayList<String> inputResponses=new ArrayList<String>();
 	protected String temp=null;
 
 	public Main()
@@ -40,6 +43,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		output.setEditable(false);
 		output.setFocusable(true);
 		if (first)
+		{
 			try
 			{
 					out.setParagraphAttributes(out.getLength(), 1, left, false);
@@ -48,6 +52,8 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			catch (BadLocationException e)
 			{
 			}
+			inputResponses.add("");
+		}
 		first=false;
 		input.setText("Enter text here");
 		input.addFocusListener(this);
@@ -107,7 +113,17 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			help=false;
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_UP)
-			scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue()-5);
+		{
+			pos=Math.max(0,pos-1);
+			if (inputResponses.size()>pos&&pos>=0)
+				input.setText(inputResponses.get(pos));
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_DOWN)
+		{
+			pos=Math.min(inputResponses.size()-1,pos+1);
+			if (inputResponses.size()>pos&&pos>=0)
+				input.setText(inputResponses.get(pos));
+		}
 		else if (e.getKeyCode()==KeyEvent.VK_DOWN)
 			scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue()+5);
 		else if (e.getKeyCode()==KeyEvent.VK_PAGE_UP)
@@ -174,6 +190,8 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		}
 		if (!userError)
 		{
+			pos=inputResponses.size();
+			inputResponses.add(inputResponses.size()-1,temp);
 			input.setText("");
 			try
 			{
