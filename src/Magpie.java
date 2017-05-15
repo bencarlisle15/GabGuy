@@ -1,6 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +14,7 @@ public class Magpie
 	private String name;
 	private Blackjack b;
 	private int code=0;
+	private HashMap<String,String> others=new HashMap<String,String>();
 
 	public String getResponse(String s)
 	{
@@ -72,12 +74,16 @@ public class Magpie
 		}
 		else
 		{
-			if (new Calculator().checkEq(statement))
+			if (others.containsKey(statement))
+				response=returnOthers(statement);
+			else if (new Calculator().checkEq(statement))
 				response="="+new Calculator().equationSolver(statement);
 			else if (statement.matches("(.*)my name is ([a-zA-Z]| |[.]|-)+"))
 				response=name(statement);
 			else if (findKeyword(statement,"my name is"))
 				response="I doubt that's your real name";
+			else if (statement.matches("(.*)if i say (.+) then say (.+)"))
+				response=addResponse(statement);
 			else if (findKeyword(statement,"game"))
 			{
 				response="What game would you like to play?";
@@ -140,6 +146,8 @@ public class Magpie
 				System.exit(0);
 			else if (statement.equals("hello")||statement.equals("hi"))
 				response=name==null?"We meet again":"Hello, " + name;
+			else if (statement.matches("(.*)do (.+)"))
+				response="Why would I do "+statement.substring(statement.indexOf("do")+3);
 			else
 				response = getRandomResponse();
 		}
@@ -168,6 +176,20 @@ public class Magpie
 		Pattern f = Pattern.compile(pattern);
 		Matcher letters = f.matcher(phrase);
 		return letters.find();
+	}
+	
+	private String addResponse(String s)
+	{
+		others.put(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1),s.substring(s.indexOf("then say")+9));
+		return "Okay, keywords learned";
+	}
+	
+	private String returnOthers(String s)
+	{
+		for (int i=0;i<others.size();i++)
+			if (others.containsKey(s))
+				return others.get(s);
+		return "An error has occured";
 	}
 	
 	private String ping()

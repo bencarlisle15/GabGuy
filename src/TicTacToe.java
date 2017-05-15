@@ -425,8 +425,6 @@ public class TicTacToe extends JPanel implements MouseListener
 		status.setFont(status.getFont().deriveFont(24f));
 		status.addMouseListener(this);
 		status.setSize(getWidth(),(int)(status.getPreferredSize().getHeight()));
-//		System.out.println(status.getHeight());
-//		status.setLocation(getWidth()/2-status.getWidth()/2,getHeight()/2-status.getHeight()/2);
 		add(status,BorderLayout.NORTH);
 	}
 
