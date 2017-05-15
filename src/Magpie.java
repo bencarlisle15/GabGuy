@@ -1,5 +1,6 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -15,6 +16,7 @@ public class Magpie
 	private Blackjack b;
 	private int code=0;
 	private HashMap<String,String> others=new HashMap<String,String>();
+	private HashMap<String,ArrayList<String>> list=new HashMap<String,ArrayList<String>>();
 
 	public String getResponse(String s)
 	{
@@ -94,6 +96,10 @@ public class Magpie
 				response="Do you need help?";
 				code=4;
 			}
+			else if (statement.matches("(.*)add (.+) to (.+)"))
+				response=addToList(statement);
+			else if (statement.matches("(.*)what's on (.+)"))
+				response="Your list has:\n"+returnList(statement);
 			else if (statement.matches(
 					"(.*)(((who|what|where|why|how|when) is)|(what's|who's|where's|why's|how's|when's)) (.)+"))
 						response=new InfoFinder().create(statement);
@@ -190,6 +196,32 @@ public class Magpie
 			if (others.containsKey(s))
 				return others.get(s);
 		return "An error has occured";
+	}
+	
+	private String addToList(String s)
+	{
+		if (list.containsKey(s.substring(s.indexOf("to")+3)))
+			list.get(s.substring(s.indexOf("to")+3)).add(s.substring(s.indexOf("add")+4,s.indexOf("to")-1));
+		else
+		{
+			ArrayList<String> ans=new ArrayList<String>();
+			ans.add(s.substring(s.indexOf("add")+4,s.indexOf("to")-1));
+			list.put(s.substring(s.indexOf("to")+3),ans);
+		}
+		return "Okay";
+	}
+	
+	private String returnList(String s)
+	{
+		if (list.containsKey(s.substring(s.indexOf("what's on")+10)))
+		{
+			String ans="";
+			ArrayList<String> l=list.get(s.substring(s.indexOf("what's on")+10));
+			for (int i=0;i<l.size();i++)
+				ans+=l.get(i)+"\n";
+			return ans;
+		}
+		return "List not found";
 	}
 	
 	private String ping()
