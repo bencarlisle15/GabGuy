@@ -148,16 +148,21 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		{
 			threads.get(threads.size()-1).stop();
 			outAdd.setChecking(false);
-			try
+			if (!help&&e.getKeyCode()==KeyEvent.VK_F1)
+				help();
+			else
 			{
-				out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
-				out.setParagraphAttributes(out.getLength(), 1, left, false);
-				out.insertString(out.getLength(),"Process stopped"+"\n", left);
+				try
+				{
+					out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
+					out.setParagraphAttributes(out.getLength(), 1, left, false);
+					out.insertString(out.getLength(),"Process stopped"+"\n", left);
+				}
+				catch (BadLocationException f)
+				{
+				}
+				input.setText("");
 			}
-			catch (BadLocationException f)
-			{
-			}
-			input.setText("");
 		}
 		else
 		{
@@ -168,16 +173,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 				output.setCaretPosition(output.getDocument().getLength());
 			}
 			else if (!help&&e.getKeyCode()==KeyEvent.VK_F1)
-				try
-				{
-					out.setParagraphAttributes(out.getLength(), 1, left, false);
-					out.insertString(out.getLength(),mag.getResponse("help")+"\n", left);
-					help=true;
-					input.requestFocusInWindow();
-				}
-				catch (BadLocationException f)
-				{
-				}
+				help();
 		}
 	}
 
@@ -196,6 +192,19 @@ public class Main extends JPanel implements KeyListener, FocusListener
 	{
 		if (input.getText().equals(""))
 			input.setText("Enter text here");
+	}
+	
+	public void help()
+	{
+		mag.setCode(0);
+		temp="help";
+		mag.setStatement(temp);
+		pos=inputResponses.size();
+		inputResponses.add(inputResponses.size()-1,temp);
+		input.setText("");
+		userError=false;
+		help=true;
+		enterString();
 	}
 	
 	private void setText()

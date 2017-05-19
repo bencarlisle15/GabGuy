@@ -14,11 +14,11 @@ public class Magpie extends Thread
 {
 	private String name;
 	private Blackjack b;
-	public int code=0;
+	private int code=0;
 	private HashMap<String,String> others=new HashMap<String,String>();
 	private HashMap<String,ArrayList<String>> list=new HashMap<String,ArrayList<String>>();
-	public String statement;
-	public String response;
+	private String statement;
+	private String response;
 	
 	public String getResponse(String s)
 	{
@@ -41,6 +41,16 @@ public class Magpie extends Thread
 	public void setStatement(String s)
 	{
 		statement=s.toLowerCase();
+	}
+	
+	public int getCode()
+	{
+		return code;
+	}
+	
+	public void setCode(int c)
+	{
+		code=c;
 	}
 	
 	public void run()
@@ -94,10 +104,13 @@ public class Magpie extends Thread
 			else
 			{	
 				Scanner is=new Scanner(getClass().getResourceAsStream("files/help.md"));
-				response="";
+				String ans="";
 				while (is.hasNextLine())
-					response+=is.nextLine()+"\n";
+				{
+					ans+=is.nextLine()+"\n";
+				}
 				is.close();
+				response=ans;
 			}
 			code=0;
 		}
