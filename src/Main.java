@@ -34,7 +34,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 	private static boolean help=false;
 	private int pos;
 	private ArrayList<String> inputResponses=new ArrayList<String>();
-	protected String temp=null;
+	private String temp=null;
 	private OutputAdd outAdd=new OutputAdd(mag, out, left,this,Thread.currentThread(),output);
 	private ArrayList<Thread> threads=new ArrayList<Thread>();
 
@@ -93,11 +93,11 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		input.requestFocusInWindow();	
 	}
 	
-	public void enterString()
+	private void enterString()
 	{
 		threads.add(new Thread(mag));
 		threads.get(threads.size()-1).start();
-		outAdd.checking=true;
+		outAdd.setChecking(true);
 		try
 		{
 			out.setParagraphAttributes(out.getLength(), 1, left, false);
@@ -107,14 +107,47 @@ public class Main extends JPanel implements KeyListener, FocusListener
 		{
 		}
 	}
+	
+	public void setTemp(String t)
+	{
+		temp=t;
+	}
 
-	@SuppressWarnings("deprecation")
 	public void keyPressed(KeyEvent e)
 	{
-		if (outAdd.checking)
+		if (e.getKeyCode()==KeyEvent.VK_ENTER&&!input.getText().equals(""))
+		{
+			temp=input.getText().trim();
+			setText();
+			help=false;
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_UP)
+		{
+			pos=Math.max(0,pos-1);
+			if (inputResponses.size()>pos&&pos>=0)
+				input.setText(inputResponses.get(pos));
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_DOWN)
+		{
+			pos=Math.min(inputResponses.size()-1,pos+1);
+			if (inputResponses.size()>pos&&pos>=0)
+				input.setText(inputResponses.get(pos));
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_DOWN)
+			scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue()+5);
+		else if (e.getKeyCode()==KeyEvent.VK_PAGE_UP)
+			scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMinimum());
+		else if (e.getKeyCode()==KeyEvent.VK_PAGE_DOWN)
+			scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+	}
+
+	@SuppressWarnings("deprecation")
+	public void keyReleased(KeyEvent e)
+	{
+		if (outAdd.getChecking())
 		{
 			threads.get(threads.size()-1).stop();
-			outAdd.checking=false;
+			outAdd.setChecking(false);
 			try
 			{
 				out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
@@ -124,56 +157,28 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			catch (BadLocationException f)
 			{
 			}
+			input.setText("");
 		}
 		else
 		{
-			if (e.getKeyCode()==KeyEvent.VK_ENTER&&!input.getText().equals(""))
+			if (!userError&&e.getKeyCode()==KeyEvent.VK_ENTER&&temp!=null)
 			{
-				temp=input.getText().trim();
-				setText();
-				help=false;
-			}
-			else if (e.getKeyCode()==KeyEvent.VK_UP)
-			{
-				pos=Math.max(0,pos-1);
-				if (inputResponses.size()>pos&&pos>=0)
-					input.setText(inputResponses.get(pos));
-			}
-			else if (e.getKeyCode()==KeyEvent.VK_DOWN)
-			{
-				pos=Math.min(inputResponses.size()-1,pos+1);
-				if (inputResponses.size()>pos&&pos>=0)
-					input.setText(inputResponses.get(pos));
-			}
-			else if (e.getKeyCode()==KeyEvent.VK_DOWN)
-				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue()+5);
-			else if (e.getKeyCode()==KeyEvent.VK_PAGE_UP)
-				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMinimum());
-			else if (e.getKeyCode()==KeyEvent.VK_PAGE_DOWN)
-				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-		}
-	}
-
-	public void keyReleased(KeyEvent e)
-	{
-
-		if (!userError&&e.getKeyCode()==KeyEvent.VK_ENTER&&temp!=null)
-		{
-			enterString();
-			input.requestFocusInWindow();
-			output.setCaretPosition(output.getDocument().getLength());
-		}
-		else if (!help&&e.getKeyCode()==KeyEvent.VK_F1)
-			try
-			{
-				out.setParagraphAttributes(out.getLength(), 1, left, false);
-				out.insertString(out.getLength(),mag.getResponse("help")+"\n", left);
-				help=true;
+				enterString();
 				input.requestFocusInWindow();
+				output.setCaretPosition(output.getDocument().getLength());
 			}
-			catch (BadLocationException f)
-			{
-			}
+			else if (!help&&e.getKeyCode()==KeyEvent.VK_F1)
+				try
+				{
+					out.setParagraphAttributes(out.getLength(), 1, left, false);
+					out.insertString(out.getLength(),mag.getResponse("help")+"\n", left);
+					help=true;
+					input.requestFocusInWindow();
+				}
+				catch (BadLocationException f)
+				{
+				}
+		}
 	}
 
 	public void keyTyped(KeyEvent e)
@@ -193,7 +198,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			input.setText("Enter text here");
 	}
 	
-	public void setText()
+	private void setText()
 	{
 		int count=0;
 		for (int i=0;i<temp.length();i++)

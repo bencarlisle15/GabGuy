@@ -8,11 +8,11 @@ public class OutputAdd extends Thread
 	private Magpie mag;
 	private StyledDocument out;
 	private SimpleAttributeSet left;
-	public boolean checking;
+	private boolean checking;
 	private Main main;
 	private Thread thread;
 	private JTextPane output;
-	public String ans;
+	private String ans;
 	
 	public OutputAdd(Magpie ma, StyledDocument o, SimpleAttributeSet l, Main m, Thread t,JTextPane ou)
 	{
@@ -33,7 +33,17 @@ public class OutputAdd extends Thread
 		}
 	}
 	
-	public void checkMag()
+	public boolean getChecking()
+	{
+		return checking;
+	}
+	
+	public void setChecking(boolean b)
+	{
+		checking=b;
+	}
+	
+	private void checkMag()
 	{
 		try
 		{
@@ -57,7 +67,7 @@ public class OutputAdd extends Thread
 				catch (BadLocationException e)
 				{
 				}
-				main.temp=null;
+				main.setTemp(null);
 				checking=false;
 			}
 		}

@@ -71,7 +71,7 @@ public class TicTacToe extends JPanel implements MouseListener
 			paintLine(g);
 	}
 	
-	public void paintLine(Graphics g)
+	private void paintLine(Graphics g)
 	{
 		Graphics2D g2=(Graphics2D) g;
 		g2.setColor(Color.YELLOW);
@@ -80,7 +80,7 @@ public class TicTacToe extends JPanel implements MouseListener
 		gameIsOver();
 	}
 	
-	public void paintLetter(Graphics g,int r,int c)
+	private void paintLetter(Graphics g,int r,int c)
 	{
 		System.out.println("painting letter");
 		int addRow=0;
@@ -404,7 +404,7 @@ public class TicTacToe extends JPanel implements MouseListener
 		done=false;
 	}
 	
-	public void gameIsOver()
+	private void gameIsOver()
 	{
 		gameFinished=true;
 		String ans;
