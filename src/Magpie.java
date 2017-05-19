@@ -10,18 +10,42 @@ import java.io.LineNumberReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class Magpie
+public class Magpie extends Thread
 {
 	private String name;
 	private Blackjack b;
-	private int code=0;
+	public int code=0;
 	private HashMap<String,String> others=new HashMap<String,String>();
 	private HashMap<String,ArrayList<String>> list=new HashMap<String,ArrayList<String>>();
-
+	public String statement;
+	public String response;
+	
 	public String getResponse(String s)
 	{
-		String response=null;
-		String statement=s.toLowerCase();
+		setStatement(s);
+		run();
+		return getResponse();
+	}
+	
+	public String getResponse()
+	{
+		if (response!=null)
+		{
+			String temp=new String(response);
+			response=null;
+			return temp;
+		}
+		return response;
+	}
+	
+	public void setStatement(String s)
+	{
+		statement=s.toLowerCase();
+	}
+	
+	public void run()
+	{
+		response=null;
 		if (code==1)
 		{
 			if (findKeyword(statement,"rock")||findKeyword(statement,"paper")||findKeyword(statement,"scissors"))
@@ -42,11 +66,14 @@ public class Magpie
 			else if (findKeyword(statement,"tic")||findKeyword(statement,"tac")||findKeyword(statement,"toe"))
 				new TicTacToe().create();
 			else
+			{
 				response=("Sorry, that game is not supported.");
+				code=0;
+			}
 			if (code==1&&response==null)
 			{
 				code=0;
-				response=goodGame();;
+				response=goodGame();
 			}
 		}
 		else if (code==2)
@@ -160,9 +187,8 @@ public class Magpie
 			else if (statement.matches("(.*)do (.+)"))
 				response="Why would I do "+statement.substring(statement.indexOf("do")+3);
 			else
-				response = getRandomResponse();
+				response=getRandomResponse();
 		}
-		return response;
 	}
 	
 	private String getRandomResponse()

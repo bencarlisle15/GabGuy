@@ -117,7 +117,7 @@ public class InfoFinder
 				{
 					ans=addLine(line3);
 					for (int i=0;i<ans.length();i++)
-						if (ans.substring(i,Math.min(i+3,ans.length())).equals("â€“"))
+						if (ans.substring(i,Math.min(i+3,ans.length())).equals("Ã¢â‚¬â€œ"))
 						{
 							ans=ans.substring(0,i)+"-"+ans.substring(i+3);
 							i-=2;
