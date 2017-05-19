@@ -145,9 +145,6 @@ public class Magpie extends Thread
 					response+="Your list, " + statement.substring(statement.indexOf("what's on")+10) + ", has:\n";
 				response+=returnList(statement);
 			}
-			else if (statement.matches(
-					"(.*)(((who|what|where|why|how|when) is)|(what's|who's|where's|why's|how's|when's)) (.)+"))
-						response=new InfoFinder().create(statement);
 			else if (statement.matches("(.*)(who|what|where|why|how|when)((.)+)"))
 				response=new InfoFinder().create(statement);
 			else if (findKeyword(statement,"time"))

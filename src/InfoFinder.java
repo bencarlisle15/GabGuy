@@ -11,15 +11,15 @@ public class InfoFinder
 	public String create(String l)
 	{
 		String wiki="https://en.wikipedia.org/wiki/";
-		line=wiki+removeQuestion(l);
+		line=wiki+fix(removeQuestion(l));
 		String ans=find();
 		if (!ans.substring(0,Math.min(20,ans.length())).equals("An error has occured"))
 			return ans;
-		line="http://www.ask.com/web?o=0&l=dir&qo=serpSearchTopBox&q="+l;
+		line="http://www.ask.com/web?o=0&l=dir&qo=serpSearchTopBox&q="+fix(l);
 		String ask=askFind();
 		if (!ask.substring(0,Math.min(20,ask.length())).equals("An error has occured"))
 			return ask;
-		line="http://www.ask.com/web?o=0&l=dir&qo=serpSearchTopBox&q="+removeQuestion(l);
+		line="http://www.ask.com/web?o=0&l=dir&qo=serpSearchTopBox&q="+fix(removeQuestion(l));
 		String noQuestion=askFind();
 		if (!noQuestion.substring(0,Math.min(20,noQuestion.length())).equals("An error has occured"))
 			return noQuestion;
@@ -31,7 +31,10 @@ public class InfoFinder
 		int pos=s.indexOf("'s ")+3;
 		if (pos==2||s.indexOf("is")<s.indexOf("'s ")&&s.indexOf("is")>=0)
 			pos=s.indexOf(" is ")+4;
-		String whatIs= s.substring(pos);
+		return s.substring(pos);
+	}
+	private String fix(String whatIs)
+	{
 		String ans="";
 		whatIs=whatIs.trim();
 		int p=0;
@@ -43,7 +46,7 @@ public class InfoFinder
 		{
 			if (whatIs.substring(i,Math.min(i+1,whatIs.length())).equals(" "))
 			{
-				ans+=whatIs.substring(p,i)+"+";
+				ans+=whatIs.substring(p,i)+"%20";
 				p=++i;
 			}
 			else if (whatIs.substring(i,Math.min(i+1,whatIs.length())).equals("'"))
@@ -77,15 +80,17 @@ public class InfoFinder
 							lines+=line1;
 							line1=lr.readLine();
 						}
+						lr.close();
 						return addLine(lines);
 					}
 				line1=lr.readLine();
 			}
+			lr.close();
 			return "An error has occured please be less specfic.";
 		}
 		catch (UnknownHostException e)
 		{
-			return "Test failed, could not connect.";
+			return "Could not connect.";
 		}
 		catch (IOException e)
 		{
@@ -122,16 +127,18 @@ public class InfoFinder
 							ans=ans.substring(0,i)+"-"+ans.substring(i+3);
 							i-=2;
 						}
+					lr.close();
 					if (ans.indexOf("may refer to:")>=0)
 						return "An error has occured, please be more specific.";
 					return ans;
 				}
 			}
+			lr.close();
 			return "An error has occured, please be less specfic.";
 		}
 		catch (UnknownHostException e)
 		{
-			return "Test failed, could not connect.";
+			return "Could not connect.";
 		}
 		catch (IOException e)
 		{
