@@ -230,8 +230,13 @@ public class Magpie extends Thread
 	
 	private String addResponse(String s)
 	{
-		others.put(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1),s.substring(s.indexOf("then say")+9));
-		return "Okay, keywords learned";
+		if (!others.containsKey(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1)))
+		{
+			others.put(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1),s.substring(s.indexOf("then say")+9));
+			return "Okay, keywords learned";
+		}
+		else
+			return "Keyword already exists";
 	}
 	
 	private String returnOthers(String s)

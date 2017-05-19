@@ -71,5 +71,14 @@ public class OutputAdd extends Thread
 				checking=false;
 			}
 		}
+		else
+			try
+			{
+				if (out.getText(0,out.getLength()).contains("working..."))
+					out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
+			}
+			catch (BadLocationException e)
+			{
+			}
 	}
 }

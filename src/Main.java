@@ -55,6 +55,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			{
 			}
 			inputResponses.add("");
+			inputResponses.add("");
 		}
 		first=false;
 		input.setText("Enter text here");
