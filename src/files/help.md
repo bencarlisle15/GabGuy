@@ -1,7 +1,7 @@
 GabGuy v1.0
 Created by Ben Carlisle
 
-GabGuy is a chatbot that's easy to talk to. Whether it be for fun, to learn something or even just to talk, GabGuy, for all your gabbing needs.
+GabGuy is a chatbot that's easy to talk to. Whether it be for fun, to learn something or even just to talk, GabGuy, for all your gabbing needs. Note: if GabGuy takes too long to respond any operations can be canceled by typing.
 
 Features:
 1.) Ask GabGuy a question and he will scavange the Internet in search of an answer for you (type ping to test your connection). Ex. "What's Google"
