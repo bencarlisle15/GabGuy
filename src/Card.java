@@ -1,27 +1,31 @@
 public class Card
 {
-
+	//private instance variables
 	private int num;
 	private String type;
 
 	public Card(int n, String t)
 	{
+		//initializes the card with a number and a type/suit
 		num=n;
 		type=t;
 	}
 	
-	public int returnNum()
+	public int getNum()
 	{
+		//returns the cards num
 		return num;
 	}
 	
-	public String returnType()
+	public String getType()
 	{
+		//returns the cards type
 		return type;
 	}
 	
-	public String returnRank()
+	public String getRank()
 	{
+		//returns the cards num but changes it if it is a face card or ace
 		String r;
 		if (num==1)
 			r="Ace";
@@ -38,7 +42,8 @@ public class Card
 	
 	public String toString()
 	{
-		return "The " + returnRank() + " of " + type;
+		//returns the rank and type
+		return "The " + getRank() + " of " + type;
 	} 
 
 }

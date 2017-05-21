@@ -1,17 +1,16 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
 public class Magpie extends Thread
 {
+	//private instance variables
 	private String name;
 	private Blackjack b;
 	private int code=0;
@@ -20,15 +19,9 @@ public class Magpie extends Thread
 	private String statement;
 	private String response;
 	
-	public String getResponse(String s)
-	{
-		setStatement(s);
-		run();
-		return getResponse();
-	}
-	
 	public String getResponse()
 	{
+		//returns the response and sets it to null
 		if (response!=null)
 		{
 			String temp=new String(response);
@@ -40,46 +33,62 @@ public class Magpie extends Thread
 	
 	public void setStatement(String s)
 	{
+		//sets the statement and lowers it
 		statement=s.toLowerCase();
 	}
 	
 	public int getCode()
 	{
+		//returns the current code
 		return code;
 	}
 	
 	public void setCode(int c)
 	{
+		//sets the current code
 		code=c;
 	}
 	
+	//runs the magpie thread
 	public void run()
 	{
 		response=null;
+		//if the user wants to play a game
 		if (code==1)
 		{
+			//looks for game
 			if (findKeyword(statement,"rock")||findKeyword(statement,"paper")||findKeyword(statement,"scissors"))
 			{
 				response="Rock, Paper, Scissors, Shoot!";
+				//sets code to the RPS code
 				code=2;
 			}
 			else if (findKeyword(statement,"blackjack"))
 			{
+				//sets code to the Blackjack code
 				b=new Blackjack();
 				response=b.getNext(statement);
 				code=3;
 			}
 			else if (findKeyword(statement,"elevens"))
+				//starts elevens
 				new CardBoardGUI(new ElevensBoard()).displayGame();
 			else if (findKeyword(statement,"thirteens"))
+				//starts thirteens
 				new CardBoardGUI(new ThirteensBoard()).displayGame();
 			else if (findKeyword(statement,"tic")||findKeyword(statement,"tac")||findKeyword(statement,"toe"))
-				new TicTacToe().create();
+			{
+				//starts TTT
+				TicTacToe t=new TicTacToe();
+				t.create(t);
+			}
 			else
 			{
+				//game not found resets code to default
 				response=("Sorry, that game is not supported.");
 				code=0;
 			}
+			//if a new window game was started
 			if (code==1&&response==null)
 			{
 				code=0;
@@ -88,27 +97,32 @@ public class Magpie extends Thread
 		}
 		else if (code==2)
 		{
+			//returns the cpu RPS response and end status
 			response=rps(statement)+"\n"+goodGame();
 			code=0;
 		}
 		else if (code==3)
 		{
+			//returns the next Blackjack response
 			response=b.getNext(statement);
+			//if the code is 100 the game is over
 			if (b.getCode()==100)
 				code=0;
 		}
+		//if the user hit f1
 		else if (code==4)
 		{
+			//sees if they want help
 			if (statement.indexOf("n")>=0)
 				response="Okay";
 			else
-			{	
+			{
+				//new scanner for help file
 				Scanner is=new Scanner(getClass().getResourceAsStream("files/help.md"));
 				String ans="";
+				//if another line exists
 				while (is.hasNextLine())
-				{
 					ans+=is.nextLine()+"\n";
-				}
 				is.close();
 				response=ans;
 			}
@@ -116,6 +130,7 @@ public class Magpie extends Thread
 		}
 		else
 		{
+			//rather self explanatory if and response statements
 			if (others.containsKey(statement))
 				response=returnOthers(statement);
 			else if (new Calculator().checkEq(statement))
@@ -141,6 +156,7 @@ public class Magpie extends Thread
 			else if (statement.matches("(.*)what's on (.+)"))
 			{
 				response="";
+				//checks for the list and returns what is on it
 				if (list.containsKey(statement.substring(statement.indexOf("what's on")+10)))
 					response+="Your list, " + statement.substring(statement.indexOf("what's on")+10) + ", has:\n";
 				response+=returnList(statement);
@@ -203,6 +219,7 @@ public class Magpie extends Thread
 	
 	private String getRandomResponse()
 	{
+		//random responses
 		switch ((int)(4*Math.random()+1))
 		{
 		case 1:
@@ -218,17 +235,16 @@ public class Magpie extends Thread
 	
 	private boolean findKeyword(String phrase, String goal)
 	{
-		goal = goal.toLowerCase();
-		String pattern = "([^a-zA-Z]|\\A)" + goal + "(\\z|[^a-zA-Z])";
-		Pattern f = Pattern.compile(pattern);
-		Matcher letters = f.matcher(phrase);
-		return letters.find();
+		//return if the goal can be found in the phrase
+		return phrase.matches("([^a-zA-Z]|\\A)"+goal.toLowerCase()+"(\\z|[^a-zA-Z])");
 	}
 	
 	private String addResponse(String s)
 	{
+		//checks if the key already exists
 		if (!others.containsKey(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1)))
 		{
+			//adds the key and response to the other statements list
 			others.put(s.substring(s.indexOf("if I say")+10,s.indexOf("then say")-1),s.substring(s.indexOf("then say")+9));
 			return "Okay, keywords learned";
 		}
@@ -238,14 +254,15 @@ public class Magpie extends Thread
 	
 	private String returnOthers(String s)
 	{
-		for (int i=0;i<others.size();i++)
-			if (others.containsKey(s))
-				return others.get(s);
+		//returns the response to the key
+		if (others.containsKey(s))
+			return others.get(s);
 		return "An error has occured";
 	}
 	
 	private String addToList(String s)
 	{
+		//checks to see if the list exists and adds it to it
 		if (list.containsKey(s.substring(s.indexOf("to")+3)))
 			list.get(s.substring(s.indexOf("to")+3)).add(s.substring(s.indexOf("add")+4,s.indexOf("to")-1));
 		else
@@ -259,6 +276,7 @@ public class Magpie extends Thread
 	
 	private String returnList(String s)
 	{
+		//return the elements of the specififed list if the list is found
 		if (list.containsKey(s.substring(s.indexOf("what's on")+10)))
 		{
 			String ans="";
@@ -274,7 +292,8 @@ public class Magpie extends Thread
 	{
 		try
 		{
-			LineNumberReader lr = new LineNumberReader(new InputStreamReader(
+			//checks to see if the computer can connect to google
+			BufferedReader lr = new BufferedReader(new InputStreamReader(
 			new URL("https://www.google.com").openConnection().getInputStream()));
 			if (lr.ready())
 				return "Test successfull";
@@ -290,8 +309,10 @@ public class Magpie extends Thread
 	
 	private String name(String statement)
 	{
+		//sets the first letter of the name to uppercase
 		name=statement.substring(statement.indexOf("my name is ")+11,
 		statement.indexOf("my name is ")+12).toUpperCase();
+		//sets every letter after a space, dash, or period to uppercase and everything else to lowercase
 		for (int i=statement.indexOf("my name is ")+13;i<=statement.length();i++)
 			if ((statement.substring(i-1,i).equals(" ")||statement.substring(i-1,i).equals(".")
 			||statement.substring(i-1,i).equals("-"))&&i<statement.length())
@@ -307,9 +328,11 @@ public class Magpie extends Thread
 	private String rps(String statement)
 	{
 		String response;
-		int move= (int) (3*Math.random()+1);
+		//sets the cpu move
+		int move=(int)(3*Math.random()+1);
 		int yourMove=0;
 		String yours=statement;
+		//puts the user move into number format
 		if (yours.equalsIgnoreCase("rock"))
 			yourMove=1;
 		else if (yours.equalsIgnoreCase("scissors"))
@@ -318,6 +341,7 @@ public class Magpie extends Thread
 			yourMove=3;
 		else
 			return "That is not a valid entry, goodbye!";
+		//analyzes scenarios
 		if (yourMove==move)
 			response="I drew " + yours + ", it is a tie";
 		else if (yourMove==1&&move==2)
@@ -339,6 +363,7 @@ public class Magpie extends Thread
 	
 	private String goodGame()
 	{
+		//checks for name and returns good game 
 		String n=name!=null?(", "+name+"!"):"!";
 		return "Good game"+n;
 	}

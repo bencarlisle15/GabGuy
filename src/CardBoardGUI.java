@@ -257,7 +257,7 @@ public class CardBoardGUI extends JFrame implements ActionListener {
 		if (c == null) {
 			return "cards/back1.GIF";
 		}
-		str += c.returnRank() + c.returnType();
+		str += c.getRank() + c.getType();
 		if (isSelected) {
 			str += "S";
 		}

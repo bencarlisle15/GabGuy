@@ -64,7 +64,7 @@ public class ElevensBoard extends CardBoard
 		for (int i=0;i<selectedCards.size();i++)
 		{
 			for (int p=0;p<i;p++)
-				if (cardAt(selectedCards.get(i)).returnNum()+cardAt(selectedCards.get(p)).returnNum()==11)
+				if (cardAt(selectedCards.get(i)).getNum()+cardAt(selectedCards.get(p)).getNum()==11)
 				{
 					ans.add(p);
 					ans.add(i);
@@ -89,17 +89,17 @@ public class ElevensBoard extends CardBoard
 		boolean j=false,q=false,k=false;
 		for (int i=0;i<selectedCards.size();i++)
 		{
-			if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("jack"))
+			if (cardAt(selectedCards.get(i)).getRank().equalsIgnoreCase("jack"))
 				{
 					j=true;
 					ans.add(selectedCards.get(i));
 				}
-			else if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("queen"))
+			else if (cardAt(selectedCards.get(i)).getRank().equalsIgnoreCase("queen"))
 			{
 				q=true;
 				ans.add(selectedCards.get(i));
 			}
-			else if (cardAt(selectedCards.get(i)).returnRank().equalsIgnoreCase("king"))
+			else if (cardAt(selectedCards.get(i)).getRank().equalsIgnoreCase("king"))
 			{
 				k=true;
 				ans.add(selectedCards.get(i));
