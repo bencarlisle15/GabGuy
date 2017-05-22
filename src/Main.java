@@ -264,7 +264,6 @@ public class Main extends JPanel implements KeyListener, FocusListener
 	
 	private void setText()
 	{
-		System.out.println(temp);
 		int count=0;
 		//checks to make sure no word is over 50 characters to prevent spam
 		//done since it might add an ugly and obstructive horozontal scroll bar 

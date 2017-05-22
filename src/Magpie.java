@@ -82,6 +82,13 @@ public class Magpie extends Thread
 				TicTacToe t=new TicTacToe();
 				t.create(t);
 			}
+			else if (findKeyword(statement,"brick")||findKeyword(statement,"breaker"))
+			{
+				//starts BB
+				BrickBreaker b=new BrickBreaker();
+				b.create(b);
+				new Thread(b).start();
+			}
 			else
 			{
 				//game not found resets code to default
