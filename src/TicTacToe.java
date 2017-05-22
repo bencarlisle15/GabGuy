@@ -325,15 +325,15 @@ public class TicTacToe extends JPanel implements MouseListener
 			gameIsOver();
 			return;
 		}
-		//cpu move to block most user two in a rows
+		//cpu move to block most user two in a rows or make most two in rows
 		for (int r=0;r<2&&!done;r++)
 		{
-			if (board[r][2]==0&&board[r][0]==board[r][1]&&board[r][0]=='X')
+			if (board[r][2]==0&&board[r][0]==board[r][1])
 			{
 				board[r][2]='O';
 				done=true;
 			}
-			else if (board[r][0]==0&&board[r][2]==board[r][1]&&board[r][2]=='X')
+			else if (board[r][0]==0&&board[r][2]==board[r][1])
 			{
 				board[r][0]='O';
 				done=true;
@@ -341,31 +341,31 @@ public class TicTacToe extends JPanel implements MouseListener
 		}
 		for (int c=0;c<2&&!done;c++)
 		{
-			if (board[2][c]==0&&board[0][c]==board[1][c]&&board[0][c]=='X')
+			if (board[2][c]==0&&board[0][c]==board[1][c])
 			{
 				board[2][c]='O';
 				done=true;
 			}
-			else if (board[0][c]==0&&board[2][c]==board[1][c]&&board[2][c]=='X')
+			else if (board[0][c]==0&&board[2][c]==board[1][c])
 			{
 				board[0][c]='O';
 				done=true;
 			}
 		}
-		//if no two in a rows are present then pick one of the five optimal positions
 		if (!done)
 		{
-			if (board[2][2]==0&&board[0][0]==board[1][1]&&board[0][0]=='X')
+			if (board[2][2]==0&&board[0][0]==board[1][1])
 			{
 				board[2][2]='O';
 				done=true;
 			}
-			else if (board[0][2]==0&&board[2][0]==board[1][1]&&board[2][0]=='X')
+			else if (board[0][2]==0&&board[2][0]==board[1][1])
 			{
 				board[0][2]='O';
 				done=true;
 			}
 		}
+		//if no two in a rows are present then pick one of the five optimal positions
 		for (int i=0;i<2&&!done;i++)
 		{
 			int rand=(int)(Math.random()*3);
