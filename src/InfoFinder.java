@@ -135,7 +135,7 @@ public class InfoFinder
 			String line3=lr.readLine();
 			String ans;
 			//makes sure no lines are null
-			while (line1==null||line2==null||line3==null)
+			while (line1!=null&&line2!=null&&line3!=null)
 			{
 				line1=line2;
 				line2=line3;
