@@ -1,5 +1,5 @@
 GabGuy v1.0
-Created by Ben Carlisle
+Created by Ben Carlisle and Andrew Wolstenholme
 
 GabGuy is a chatbot that's easy to talk to. Whether it be for fun, to learn something or even just to talk, GabGuy, for all your gabbing needs.
 

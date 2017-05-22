@@ -194,6 +194,7 @@ public class Main extends JPanel implements KeyListener, FocusListener
 				help();
 			else
 			{
+				//tells the user that their process has stopped and removes the working message
 				try
 				{
 					out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
@@ -203,7 +204,6 @@ public class Main extends JPanel implements KeyListener, FocusListener
 				}
 				try
 				{
-					//tells the user that their process has stopped and removes the working message
 					out.setParagraphAttributes(out.getLength(), 1, left, false);
 					out.insertString(out.getLength(),"Process stopped"+"\n", left);
 				}
