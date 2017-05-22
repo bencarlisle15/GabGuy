@@ -76,13 +76,13 @@ public class Magpie extends Thread
 			else if (findKeyword(statement,"thirteens"))
 				//starts thirteens
 				new CardBoardGUI(new ThirteensBoard()).displayGame();
-			else if (findKeyword(statement,"tic")||findKeyword(statement,"tac")||findKeyword(statement,"toe"))
+			else if (statement.contains("tic")||statement.contains("tac")||statement.contains("toe"))
 			{
 				//starts TTT
 				TicTacToe t=new TicTacToe();
 				t.create(t);
 			}
-			else if (findKeyword(statement,"brick")||findKeyword(statement,"breaker"))
+			else if (statement.contains("brick")||statement.contains("breaker"))
 			{
 				//starts BB
 				BrickBreaker b=new BrickBreaker();
