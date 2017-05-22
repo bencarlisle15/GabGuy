@@ -62,10 +62,10 @@ public class BrickBreaker extends JPanel implements KeyListener, MouseListener,R
 	
 	public void paintBlocks(Graphics g){					//paints a block of length 50 every 100 units if red block says a block exists there. makes them red
 		int blockNum = 0;
-		for(int i = 0; i<=getWidth();i+=100){
+		for(int i = 0; i<redBlock.length&&i*100<=getWidth();i++){
 			if(redBlock[blockNum]){
 				g.setColor(brick);
-				g.fillRect(i, 0, 50, 50);}
+				g.fillRect(i*100, 0, 50, 50);}
 			blockNum++;							//move through boolean array
 			g.setColor(Color.white);}}			//sets back to black to paint ball
 
