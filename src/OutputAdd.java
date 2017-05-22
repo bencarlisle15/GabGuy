@@ -83,15 +83,5 @@ public class OutputAdd extends Thread
 				checking=false;
 			}
 		}
-		else
-			//if somehow the working message still exists (in case of the program running to fast) then make sure it doesn't
-			try
-			{
-				if (out.getText(0,out.getLength()).contains("working..."))
-					out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
-			}
-			catch (BadLocationException e)
-			{
-			}
 	}
 }

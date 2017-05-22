@@ -196,7 +196,14 @@ public class Main extends JPanel implements KeyListener, FocusListener
 			{
 				try
 				{
-					//tells the user that their process has stopped
+					out.remove(out.getText(0,out.getLength()).lastIndexOf("working..."),10);
+				}
+				catch (BadLocationException e1)
+				{
+				}
+				try
+				{
+					//tells the user that their process has stopped and removes the working message
 					out.setParagraphAttributes(out.getLength(), 1, left, false);
 					out.insertString(out.getLength(),"Process stopped"+"\n", left);
 				}
