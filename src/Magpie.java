@@ -57,7 +57,7 @@ public class Magpie extends Thread
 		if (code==1)
 		{
 			//looks for game
-			if (findKeyword(statement,"rock")||findKeyword(statement,"paper")||findKeyword(statement,"scissors"))
+			if (statement.contains("rock")||statement.contains("paper")||statement.contains("scissors"))
 			{
 				response="Rock, Paper, Scissors, Shoot!";
 				//sets code to the RPS code
