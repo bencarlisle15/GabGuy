@@ -16,6 +16,8 @@ services:
     image: gabguy:latest
     build:
       context: .
-    command: ["bash", "-c", "cd /src && java Main cli"]
+    command: ["bash", "-c", "cd /src && java Cli"]
     profiles:
-    - donotstart
+      - donotstart
+    stdin_open: true
+    tty: true
